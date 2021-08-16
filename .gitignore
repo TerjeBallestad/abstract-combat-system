@@ -1,3 +1,7 @@
 .vscode/settings.json
 acs.obj
 acs.exe
+.DS_Store
+acs
+game
+game.dSYM/Contents/Info.plist

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Talent.h"
 #include "TalentGrid.h"
 #include "Util.h"
@@ -67,7 +65,6 @@ string TalentGrid::ToString() {
         auto subY = (i / (subGridSize*gridSize))%subGridSize;
         
         if (talent) {
-
             if (subX == 1 && subY == 1) {
                 strings[i] = talent->ToString();   
             } else if (subX == 1 && subY == 0) {
@@ -88,40 +85,44 @@ string TalentGrid::ToString() {
                 strings[i] = "⌟";
             }
         } else {
-            if (subX == 1 && subY == 1) {
+            if (slot->hidden) {
                 strings[i] = " ";
-            } else if (subX == 1 && subY == 0) {
-                if (slot->north == none) {
+            } else {
+                if (subX == 1 && subY == 1) {
                     strings[i] = " ";
-                } else {
-                    strings[i] = Enum2Color(slot->north) + "˰" + Enum2Color(white);
+                } else if (subX == 1 && subY == 0) {
+                    if (slot->north == none) {
+                        strings[i] = " ";
+                    } else {
+                        strings[i] = Enum2Color(slot->north) + "˰" + Enum2Color(white);
+                    }
+                } else if (subX == 1 && subY == 2) {
+                    if (slot->south == none) {
+                        strings[i] = " ";
+                    } else {
+                        strings[i] = Enum2Color(slot->south) + "ˇ" + Enum2Color(white);
+                    }
+                } else if (subX == 0 && subY == 1) {
+                    if (slot->west == none) {
+                        strings[i] = " ";
+                    } else {
+                        strings[i] = Enum2Color(slot->west) + "˂" + Enum2Color(white);
+                    }
+                } else if (subX == 2 && subY == 1) {
+                    if (slot->east == none) {
+                        strings[i] = " ";
+                    } else {
+                        strings[i] = Enum2Color(slot->east) + "˃" + Enum2Color(white);
+                    }
+                } else if (subX == 0 && subY == 0) {
+                    strings[i] = "⌜";
+                } else if (subX == 2 && subY == 0) {
+                    strings[i] = "⌝";
+                } else if (subX == 0 && subY == 2) {
+                    strings[i] = "⌞";
+                } else if (subX == 2 && subY == 2) {
+                    strings[i] = "⌟";
                 }
-            } else if (subX == 1 && subY == 2) {
-                if (slot->south == none) {
-                    strings[i] = " ";
-                } else {
-                    strings[i] = Enum2Color(slot->south) + "ˇ" + Enum2Color(white);
-                }
-            } else if (subX == 0 && subY == 1) {
-                if (slot->west == none) {
-                    strings[i] = " ";
-                } else {
-                    strings[i] = Enum2Color(slot->west) + "˂" + Enum2Color(white);
-                }
-            } else if (subX == 2 && subY == 1) {
-                if (slot->east == none) {
-                    strings[i] = " ";
-                } else {
-                    strings[i] = Enum2Color(slot->east) + "˃" + Enum2Color(white);
-                }
-            } else if (subX == 0 && subY == 0) {
-                strings[i] = "⌜";
-            } else if (subX == 2 && subY == 0) {
-                strings[i] = "⌝";
-            } else if (subX == 0 && subY == 2) {
-                strings[i] = "⌞";
-            } else if (subX == 2 && subY == 2) {
-                strings[i] = "⌟";
             }
         }
 

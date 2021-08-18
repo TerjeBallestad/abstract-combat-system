@@ -4,7 +4,6 @@
 #include "rapidcsv.h"
 #include "Character.h"
 
-/*
 const std::string WHITESPACE = " \n\r\t\f\v";
  
 std::string ltrim(const std::string &s)
@@ -37,39 +36,112 @@ std::vector<std::string> split (std::string s, std::string delimiter) {
     res.push_back (s.substr (pos_start));
     return res;
 }
-*/
+
+BaseType parseColor(std::string c) {
+    if (c == "R") {
+        return red;
+    } else if (c == "G") {
+        return green;
+    } else if (c == "L") {
+        return white;
+    } else if (c == "D") {
+        return black;
+    } else if (c == "B") {
+        return blue;
+    } else if (c == "A") {
+        return all;
+    }
+
+    return none;
+}
 
 int main () 
 {
-    /*rapidcsv::Document doc("./Data.csv", rapidcsv::LabelParams(0, 0), rapidcsv::SeparatorParams(';'));
-   
-    std::vector<int[3]> gridPositions;
-
-    for (auto row : doc.GetColumn<std::string>(0)) {
-        auto xyz = split(row, ",");
-
-        int vec[3] = {0,0,0};
-        vec[0] = stoi(xyz[0]);
-        vec[1] = stoi(xyz[1]);
-        vec[2] = stoi(xyz[2]);
-
-        gridPositions.push_back(vec);
-    }
-
-
-    int i = 0;
-    for (auto row : doc.GetColumn<std::string>("Player character slots")) {
-        auto values = split(row, ",");
-        auto gridPos = gridPositions[i];
-        std::cout << row << "\n";
-        i++;
-    }
-*/
-
+    std::vector<Talent *> talents;
+    std::vector<Talent *> slots;
     Character *ply = new Character();
 
+    {
+        rapidcsv::Document doc("./Talent Grid-Talents.csv", rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(';'));
+        
+        auto Id = doc.GetColumn<int>("Id");
+        auto Name = doc.GetColumn<std::string>("Name");
+        auto Energy = doc.GetColumn<float>("Energy");
+        auto North = doc.GetColumn<std::string>("North");
+        auto East = doc.GetColumn<std::string>("East");
+        auto South = doc.GetColumn<std::string>("South");
+        auto West = doc.GetColumn<std::string>("West");
+
+        for (auto row : Id) {
+            auto i = row;
+            talents.push_back(
+                new Talent(
+                    Name[i], 
+                    Energy[i], 
+                    parseColor(North[i]), 
+                    parseColor(East[i]), 
+                    parseColor(South[i]), 
+                    parseColor(West[i]),
+                    false
+                )
+            );
+        }
+    }
+
+
+    {
+        rapidcsv::Document doc("./Talent Grid-Slots.csv", rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(';'));
+        
+        auto Id = doc.GetColumn<int>("Id");
+        auto Name = doc.GetColumn<std::string>("Name");
+        auto North = doc.GetColumn<std::string>("North");
+        auto East = doc.GetColumn<std::string>("East");
+        auto South = doc.GetColumn<std::string>("South");
+        auto West = doc.GetColumn<std::string>("West");
+
+        for (auto row : Id) {
+            auto i = row;
+            slots.push_back(
+                new Talent(
+                    Name[i], 
+                    0, 
+                    parseColor(North[i]), 
+                    parseColor(East[i]), 
+                    parseColor(South[i]), 
+                    parseColor(West[i]),
+                    true
+                )
+            );
+        }
+    }
+
+    {
+        rapidcsv::Document doc("./Talent Grid-Grid.csv", rapidcsv::LabelParams(0, 0), rapidcsv::SeparatorParams(';'));
+        auto gridSize = doc.GetColumnCount();
+
+        for (int x = 0; x < gridSize; x++) {
+            auto rows = doc.GetColumn<std::string>(x);  
+            for (int y = 0; y < gridSize; y++) {
+                auto data = split(rows[y], ",");
+                int slotId = std::stoi(data[0]);
+                int talentId = std::stoi(data[1]);
+                bool hidden = data[2] == "true";
+
+                auto slot = new Talent(*slots[slotId]);
+                auto talent = new Talent(*talents[slotId]);
+
+                slot->hidden = hidden;
+
+                ply->grid->slotGrid[x][y] = slot;
+                ply->grid->talentGrid[x][y] = talentId == 0 ? nullptr : talent;
+            }
+        }
+    }
+
+    //Character *ply = new Character();
+
     std::cout << ply->grid->ToString();
-    std::cout << ply->GetTalentScore().ToString();
+    //std::cout << ply->GetTalentScore().ToString();
 
 
 

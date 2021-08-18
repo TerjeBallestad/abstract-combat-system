@@ -9,7 +9,7 @@ public:
     float energyPerTurn = 0;
     bool hidden = false;
     BaseType north, south, east, west;
-    Talent(std::string name_, int energyPerTurn_, BaseType n,BaseType s,BaseType e,BaseType w, bool hidden);
+    Talent(std::string name_, float energyPerTurn_, BaseType n,BaseType e,BaseType s,BaseType w, bool hidden);
     std::string ToString() {
         return name;
     }

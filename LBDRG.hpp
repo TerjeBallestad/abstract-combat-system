@@ -8,9 +8,7 @@ public:
     float r = 0;
     float g = 0;
 
-    inline LBDRG(){
-        
-    };
+    inline LBDRG(){};
 
     inline LBDRG(float l_, float b_, float d_, float r_, float g_) {
         l = l_;

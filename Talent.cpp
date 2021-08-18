@@ -1,9 +1,9 @@
 #include "Talent.h"
 
-Talent::Talent(std::string name_, int energyPerTurn_, BaseType n,BaseType s,BaseType e,BaseType w, bool hidden_) {
+Talent::Talent(std::string name_, float energyPerTurn_, BaseType n,BaseType e,BaseType s,BaseType w, bool hidden_) {
     north = n;
-    south = s;
     east = e;
+    south = s;
     west = w;
     name = name_;
     energyPerTurn = energyPerTurn_;

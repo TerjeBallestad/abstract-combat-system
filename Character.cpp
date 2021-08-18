@@ -35,9 +35,6 @@ Character::Character() {
     #undef x
 
     #define x nullptr
-    #define T new Talent("T", 1, blue, blue, blue, blue, false)
-    #define C new Talent("C", 2, white, white, white, white, false)
-    #define J new Talent("J", 1, red, blue, red, blue, false)
 
     grid->talentGrid = {
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
@@ -48,7 +45,7 @@ Character::Character() {
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
-        {x,x,x,x,x,x,x,x,C,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},

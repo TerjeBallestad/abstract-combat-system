@@ -1,30 +1,17 @@
 #include <iostream>
 #include <ctime>
-#include "acs-character.h"
-#include "acs-damage.h"
 #include <vector>
 #include <string>
 #include <sstream>
 #include <iterator>
+#include "Character.h"
+#include "Damage.h"
+#include "ACS.h"
+#include "TalentGrid.h"
+#include "Talent.h"
 
 using std::string;
 using std::vector;
-
-enum BaseType { white, black, blue, red, green, none };
-
-string Enum2Color(BaseType color) {
-    if (color == white) {
-        return string("\u001b[37m");
-    } else if (color == black) {
-        return string("\u001b[30m");
-    } else if (color == blue) {
-        return string("\u001b[34m");
-    } else if (color == red) {
-        return string("\u001b[31m");
-    } else if (color == green) {
-        return string("\u001b[32m");
-    }
-}
 
 struct PuzzlePiece {
     int ID;
@@ -44,167 +31,6 @@ class Deck {
 
 class Hand {
     Card cards [10];
-};
-
-class Talent {
-public:
-    string name = string("no talent");
-    int energyPerTurn = 0;
-    BaseType north, south, east, west;
-    Talent(string name_, int energyPerTurn_, BaseType n,BaseType s,BaseType e,BaseType w) {
-        north = n;
-        south = s;
-        east = e;
-        west = w;
-        name = name_;
-        energyPerTurn = energyPerTurn_;
-        
-    }
-    string toString() {
-        return name;
-    }
-};
-
-/*
-     *
-    *c**J
-     * 
-*/
-
-class TalentGrid {
-public:
-    vector<vector<Talent*>> talentGrid;
-    vector<vector<Talent*>> slotGrid;
-
-    int gridSize = 2;
-
-    TalentGrid() {
-        talentGrid.resize(gridSize);
-        slotGrid.resize(gridSize);
-        for (auto & row: talentGrid) {
-            row.resize(gridSize);
-        }
-        for (auto & row: slotGrid) {
-            row.resize(gridSize);
-        }
-    }
-    
-    float Calculate() {
-        int scoreWhite = 0;
-        int scoreBlack = 0;
-        int scoreRed = 0;
-        int scoreGreen = 0;
-        int scoreBlue = 0;
-
-        for (int x = 0; x < gridSize; x++) {
-            for (int y = 0; y < gridSize; y++) {
-                auto talent = talentGrid[y][x];
-                
-                if (talent) {
-                    if (talent->west == white) {
-                        scoreWhite += talent->energyPerTurn;
-                    } else if (talent->west == black) {
-                        scoreBlack += talent->energyPerTurn;
-                    } else if (talent->west == red) {
-                        scoreRed += talent->energyPerTurn;
-                    } else if (talent->west == blue) {
-                        scoreBlue += talent->energyPerTurn;
-                    } else if (talent->west == green) {
-                        scoreGreen += talent->energyPerTurn;
-                    }
-                }
-            }
-        }
-    }
-
-    auto toString() {
-        vector<string> strings;
-        
-        int subGridSize = 3;
-        size_t size = (gridSize * gridSize) * subGridSize*subGridSize;
-        strings.resize(size);
-
-        for (int i = 0; i < size; i++) {
-            auto gridX = (i / (subGridSize)) % gridSize;
-            auto gridY = (i / (subGridSize*subGridSize) / gridSize) % gridSize;
-            
-            auto talent = talentGrid[gridY][gridX];
-            auto slot = slotGrid[gridY][gridX];
-            
-            auto subX = i%subGridSize;
-            auto subY = (i / (subGridSize*gridSize))%subGridSize;
-            
-            if (talent) {
-
-                if (subX == 1 && subY == 1) {
-                    strings[i] = talent->toString();   
-                } else if (subX == 1 && subY == 0) {
-                    strings[i] = Enum2Color(talent->north) + "˰" + Enum2Color(white);
-                } else if (subX == 1 && subY == 2) {
-                    strings[i] = Enum2Color(talent->south) + "ˇ" + Enum2Color(white);
-                } else if (subX == 0 && subY == 1) {
-                    strings[i] = Enum2Color(talent->west) + "˂" + Enum2Color(white);
-                } else if (subX == 2 && subY == 1) {
-                    strings[i] = Enum2Color(talent->east) + "˃" + Enum2Color(white);
-                } else if (subX == 0 && subY == 0) {
-                    strings[i] = "⌜";
-                } else if (subX == 2 && subY == 0) {
-                    strings[i] = "⌝";
-                } else if (subX == 0 && subY == 2) {
-                    strings[i] = "⌞";
-                } else if (subX == 2 && subY == 2) {
-                    strings[i] = "⌟";
-                }
-            } else {
-                if (subX == 1 && subY == 1) {
-                    strings[i] = "·";
-                } else if (subX == 1 && subY == 0) {
-                    if (slot->north == none) {
-                        strings[i] = "·";
-                    } else {
-                        strings[i] = Enum2Color(slot->north) + "˰" + Enum2Color(white);
-                    }
-                } else if (subX == 1 && subY == 2) {
-                    if (slot->south == none) {
-                        strings[i] = "·";
-                    } else {
-                        strings[i] = Enum2Color(slot->south) + "ˇ" + Enum2Color(white);
-                    }
-                } else if (subX == 0 && subY == 1) {
-                    if (slot->west == none) {
-                        strings[i] = "·";
-                    } else {
-                        strings[i] = Enum2Color(slot->west) + "˂" + Enum2Color(white);
-                    }
-                } else if (subX == 2 && subY == 1) {
-                    if (slot->east == none) {
-                        strings[i] = "·";
-                    } else {
-                        strings[i] = Enum2Color(slot->east) + "˃" + Enum2Color(white);
-                    }
-                } else if (subX == 0 && subY == 0) {
-                    strings[i] = "⌜";
-                } else if (subX == 2 && subY == 0) {
-                    strings[i] = "⌝";
-                } else if (subX == 0 && subY == 2) {
-                    strings[i] = "⌞";
-                } else if (subX == 2 && subY == 2) {
-                    strings[i] = "⌟";
-                }
-            }
-
-            if (i % (subGridSize*gridSize) == (subGridSize*gridSize)-1) {
-               strings[i] += "\n";
-            }
-        }
-
-        string str;
-
-        for(size_t i=0;i!=strings.size();++i)
-            str += strings[i];
-
-        return str;
-    }
 };
 
 int main () 

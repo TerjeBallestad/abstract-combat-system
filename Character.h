@@ -1,7 +1,7 @@
-#include "acs-spell.h"
-#include "acs-damage.h"
-
 #pragma once
+
+#include "Spell.h"
+#include "Damage.h"
 
 struct PersonalityType {
     float white; 

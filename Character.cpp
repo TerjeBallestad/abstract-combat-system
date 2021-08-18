@@ -1,6 +1,6 @@
 #include <memory>
-#include "acs-character.h"
-#include "util.h"
+#include "Character.h"
+#include "Util.h"
 
 Character::Character() {
     personalityType = (PersonalityType *)malloc(sizeof(PersonalityType));

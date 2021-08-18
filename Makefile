@@ -1,4 +1,4 @@
 all: main
 
 main:
-	g++ -g -std=c++20 acs.cpp acs-character.cpp -o game
+	g++ -g -std=c++20 ACS.cpp Character.cpp Talent.cpp TalentGrid.cpp -o game

@@ -47,10 +47,6 @@ BTVector TalentGrid::GetEnergy() {
 
 #undef CALC       
 
-std::string Grey(std::string str) {
-    return RGB(str, 75, 75, 75);
-}
-
 string TalentGrid::ToString() {
     std::vector<std::string> strings;
     

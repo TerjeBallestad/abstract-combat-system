@@ -1,6 +1,6 @@
 #pragma once
 
-class LBDRG {
+class BTVector {
 public:
     float l = 0;
     float b = 0;
@@ -8,9 +8,9 @@ public:
     float r = 0;
     float g = 0;
 
-    inline LBDRG(){};
+    inline BTVector(){};
 
-    inline LBDRG(float l_, float b_, float d_, float r_, float g_) {
+    inline BTVector(float l_, float b_, float d_, float r_, float g_) {
         l = l_;
         b = b_;
         d = d_;
@@ -18,8 +18,8 @@ public:
         g = g_;
     }
 
-    inline LBDRG operator*(LBDRG ldbrg) {
-        return LBDRG(
+    inline BTVector operator*(BTVector ldbrg) {
+        return BTVector(
             l*ldbrg.l,
             d*ldbrg.d,
             b*ldbrg.b,
@@ -28,8 +28,8 @@ public:
         );
     }
 
-      inline LBDRG operator+=(LBDRG ldbrg) {
-        return LBDRG(
+      inline BTVector operator+=(BTVector ldbrg) {
+        return BTVector(
             l+ldbrg.l,
             d+ldbrg.d,
             b+ldbrg.b,

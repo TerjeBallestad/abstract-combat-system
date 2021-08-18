@@ -3,15 +3,15 @@
 #include "Util.h"
 
 Character::Character() {
-    personalityType = (PersonalityType *)malloc(sizeof(PersonalityType));
+    personalityType = new PersonalityType();
 
-    personalityType->lbdrg = LBDRG(Random(), Random(), Random(), Random(), Random());
+    personalityType->basePersonality = BTVector(Random(), Random(), Random(), Random(), Random());
 
     personalityType->intellect = Random();
     personalityType->wisdom = Random();
     personalityType->creativity = Random();
 
-    #define x new Talent(" ", 0, none, none, none, none, true)
+    #define x new Talent(" ", none, none, none, none)
     grid = new TalentGrid();
     grid->slotGrid = {
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
@@ -57,11 +57,11 @@ Character::Character() {
     };
 }
 
-LBDRG Character::GetEnergy() {
+BTVector Character::GetEnergy() {
     return grid->GetEnergy();
 }
 
-float CalculateDamage(float color, LBDRG lbdrg) {
+float CalculateDamage(float color, BTVector lbdrg) {
     return
         (color * lbdrg.l) +
         (color * lbdrg.b) + 
@@ -75,22 +75,22 @@ float Character::TakeSpellDamage(Spell *spell) {
 
     //float blackDamage   = (spell->black * (pt->black * 0.50)) + (spell->black * (pt->blue * 1.00)) + (spell->black * (pt->red * 1.00)) + (spell->black * (pt->green * 1.50)) + (spell->black * (pt->white * 1.50));
 
-    LBDRG lbdrg;
+    BTVector lbdrg;
 
     lbdrg.l = CalculateDamage(
-        spell->lbdrg.l, pt->lbdrg * LBDRG(0.5, 1.0, 1.5, 1.5, 1.0)
+        spell->damage.l, pt->basePersonality * BTVector(0.5, 1.0, 1.5, 1.5, 1.0)
     );
     lbdrg.b = CalculateDamage(
-        spell->lbdrg.b, pt->lbdrg * LBDRG(1.0, 0.5, 1.0, 1.5, 1.5)
+        spell->damage.b, pt->basePersonality * BTVector(1.0, 0.5, 1.0, 1.5, 1.5)
     );
     lbdrg.d = CalculateDamage(
-        spell->lbdrg.d, pt->lbdrg * LBDRG(1.50, 1.00, 0.50, 1.00, 1.50)
+        spell->damage.d, pt->basePersonality * BTVector(1.5, 1.0, 0.5, 1.0, 1.5)
     );
     lbdrg.r = CalculateDamage(
-        spell->lbdrg.r, pt->lbdrg * LBDRG(1.5, 1.5, 1.0, 0.5, 1.0)
+        spell->damage.r, pt->basePersonality * BTVector(1.5, 1.5, 1.0, 0.5, 1.0)
     );
     lbdrg.g = CalculateDamage(
-        spell->lbdrg.g, pt->lbdrg * LBDRG(1.0, 1.5, 1.5, 1.0, 0.5)
+        spell->damage.g, pt->basePersonality * BTVector(1.0, 1.5, 1.5, 1.0, 0.5)
     );
 
     auto scores = GetEnergy();

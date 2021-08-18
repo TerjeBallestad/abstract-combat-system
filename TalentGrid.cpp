@@ -26,8 +26,8 @@ TalentGrid::TalentGrid() {
         scores.g += talent->energyPerTurn;\
     }\
 
-LBDRG TalentGrid::GetEnergy() {
-    LBDRG scores;
+BTVector TalentGrid::GetEnergy() {
+    BTVector scores;
 
     for (int x = 0; x < gridSize; x++) {
         for (int y = 0; y < gridSize; y++) {
@@ -72,13 +72,13 @@ string TalentGrid::ToString() {
             if (subX == 1 && subY == 1) {
                 strings[i] = talent->ToString();   
             } else if (subX == 1 && subY == 0) {
-                strings[i] = Enum2Color(talent->north, "˰˰");
+                strings[i] = BaseTypeToTerminalColor(talent->north, "˰˰");
             } else if (subX == 1 && subY == 2) {
-                strings[i] = Enum2Color(talent->south, "ˇˇ");
+                strings[i] = BaseTypeToTerminalColor(talent->south, "ˇˇ");
             } else if (subX == 0 && subY == 1) {
-                strings[i] = Enum2Color(talent->west, "˂");
+                strings[i] = BaseTypeToTerminalColor(talent->west, "˂");
             } else if (subX == 2 && subY == 1) {
-                strings[i] = Enum2Color(talent->east, "˃");
+                strings[i] = BaseTypeToTerminalColor(talent->east, "˃");
             } else if (subX == 0 && subY == 0) {
                 strings[i] = Grey("⌜");
             } else if (subX == 2 && subY == 0) {
@@ -98,25 +98,25 @@ string TalentGrid::ToString() {
                     if (slot->north == none) {
                         strings[i] = "  ";
                     } else {
-                        strings[i] = Enum2Color(slot->north, "˰˰");
+                        strings[i] = BaseTypeToTerminalColor(slot->north, "˰˰");
                     }
                 } else if (subX == 1 && subY == 2) {
                     if (slot->south == none) {
                         strings[i] = "  ";
                     } else {
-                        strings[i] = Enum2Color(slot->south, "ˇˇ");
+                        strings[i] = BaseTypeToTerminalColor(slot->south, "ˇˇ");
                     }
                 } else if (subX == 0 && subY == 1) {
                     if (slot->west == none) {
                         strings[i] = " ";
                     } else {
-                        strings[i] = Enum2Color(slot->west, "˂");
+                        strings[i] = BaseTypeToTerminalColor(slot->west, "˂");
                     }
                 } else if (subX == 2 && subY == 1) {
                     if (slot->east == none) {
                         strings[i] = " ";
                     } else {
-                        strings[i] = Enum2Color(slot->east, "˃");
+                        strings[i] = BaseTypeToTerminalColor(slot->east, "˃");
                     }
                 } else if (subX == 0 && subY == 0) {
                     strings[i] = Grey("⌜");

@@ -3,10 +3,10 @@
 #include "Spell.h"
 #include "Damage.h"
 #include "TalentGrid.h"
-#include "LBDRG.hpp"
+#include "BTVector.hpp"
 
 struct PersonalityType {
-    LBDRG lbdrg;
+    BTVector basePersonality;
     float creativity;
     float intellect;
     float wisdom;
@@ -19,7 +19,7 @@ class Character {
         float health = 100;
 
         float TakeSpellDamage(Spell *spell);
-        LBDRG GetEnergy();
+        BTVector GetEnergy();
 
         Spell *spells[3];
         TalentGrid *grid;

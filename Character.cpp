@@ -78,19 +78,19 @@ float Character::TakeSpellDamage(Spell *spell) {
     BTVector lbdrg;
 
     lbdrg.l = CalculateDamage(
-        spell->damage.l, pt->basePersonality * BTVector(0.5, 1.0, 1.5, 1.5, 1.0)
+        spell->spellType.l, pt->basePersonality * BTVector(0.5, 1.0, 1.5, 1.5, 1.0)
     );
     lbdrg.b = CalculateDamage(
-        spell->damage.b, pt->basePersonality * BTVector(1.0, 0.5, 1.0, 1.5, 1.5)
+        spell->spellType.b, pt->basePersonality * BTVector(1.0, 0.5, 1.0, 1.5, 1.5)
     );
     lbdrg.d = CalculateDamage(
-        spell->damage.d, pt->basePersonality * BTVector(1.5, 1.0, 0.5, 1.0, 1.5)
+        spell->spellType.d, pt->basePersonality * BTVector(1.5, 1.0, 0.5, 1.0, 1.5)
     );
     lbdrg.r = CalculateDamage(
-        spell->damage.r, pt->basePersonality * BTVector(1.5, 1.5, 1.0, 0.5, 1.0)
+        spell->spellType.r, pt->basePersonality * BTVector(1.5, 1.5, 1.0, 0.5, 1.0)
     );
     lbdrg.g = CalculateDamage(
-        spell->damage.g, pt->basePersonality * BTVector(1.0, 1.5, 1.5, 1.0, 0.5)
+        spell->spellType.g, pt->basePersonality * BTVector(1.0, 1.5, 1.5, 1.0, 0.5)
     );
 
     auto scores = GetEnergy();

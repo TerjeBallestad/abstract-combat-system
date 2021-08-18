@@ -5,9 +5,8 @@
 
 class Spell {
 public:
-    BTVector damage = BTVector(0,0,0,0,0);
-    BTVector cost = BTVector(0,0,0,0,0);
-    Spell(std::string name, BTVector damage, BTVector cost);
+    BTVector spellType = BTVector(0,0,0,0,0);
+    Spell(std::string name, BTVector type);
 
     std::string name = "unknown spell";
     std::string ToString();

@@ -1,8 +1,7 @@
 #include "Spell.h"
 
-Spell::Spell(std::string name_, BTVector damage_, BTVector cost_) {
-    damage = damage_;
-    cost = cost_;
+Spell::Spell(std::string name_, BTVector type_) {
+    spellType = type_;
     name = name_;
 }
 

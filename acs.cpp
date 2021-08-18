@@ -9,11 +9,19 @@ int main ()
     Character *ply = new Character();
 
     std::vector<Talent *> talents = LoadTalents();
-    std::vector<Talent *> slots = LoadSlots();    
+    std::vector<Talent *> slots = LoadSlots(); 
+    std::vector<Spell *> spells = LoadSpells();
     LoadToGrid(talents, slots, ply->grid);
+    LoadSpellsToCharacter(spells, ply);  
    
     std::cout << ply->grid->ToString();
     std::cout << ply->GetEnergy().ToString();
+    
+    for(auto spell : ply->spells){
+        std::cout << spell->ToString();
+    }
+
+    
 
 /*
 

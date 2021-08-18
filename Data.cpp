@@ -115,3 +115,43 @@ void LoadToGrid(std::vector<Talent*> talents, std::vector<Talent*> slots, Talent
         }
     }
 }
+
+std::vector<Spell *> LoadSpells(){
+    std::vector<Spell *> spells;
+    rapidcsv::Document doc("./Spells-Spells.csv", rapidcsv::LabelParams(0,-1), rapidcsv::SeparatorParams(';'));
+     auto Id = doc.GetColumn<int>("Id");
+    auto Name = doc.GetColumn<std::string>("Name");
+    auto L = doc.GetColumn<std::string>("L");
+    auto B = doc.GetColumn<std::string>("B");
+    auto D = doc.GetColumn<std::string>("D");
+    auto R = doc.GetColumn<std::string>("R");
+    auto G = doc.GetColumn<std::string>("G");
+
+   for (auto row : Id) {
+        auto i = row;
+        spells.push_back(
+            new Spell(
+                Name[i],
+                * new BTVector(
+                    CharToBaseType(L[i]), 
+                    CharToBaseType(B[i]), 
+                    CharToBaseType(D[i]), 
+                    CharToBaseType(R[i]),
+                    CharToBaseType(G[i])
+                )
+            )
+        );
+    }
+    return spells;
+};
+
+void LoadSpellsToCharacter(std:: vector<Spell*> spells, Character* character){
+    rapidcsv::Document doc("./Spells-Characters.csv", rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(';'));
+    auto spellIDs = doc.GetColumn<int>("PlayerCharacter");
+    int length = *(&character->spells + 1) -character->spells;
+     for (int i = 0; i < length; i++)
+     {
+        character->spells[i] = new Spell(*spells[spellIDs[i]]);
+     }
+     
+};

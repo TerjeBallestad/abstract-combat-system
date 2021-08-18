@@ -2,6 +2,7 @@
 
 #include "Spell.h"
 #include "Damage.h"
+#include "TalentGrid.h"
 
 struct PersonalityType {
     float white; 
@@ -24,6 +25,7 @@ class Character {
         float TakeSpellDamage(Spell *spell);
 
         Spell *spells[3];
+        TalentGrid *grids[3];
 
         PersonalityType* personalityType;
 

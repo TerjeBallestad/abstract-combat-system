@@ -1,14 +1,5 @@
 #include <iostream>
-#include <ctime>
-#include <vector>
-#include <string>
-#include <sstream>
-#include <iterator>
 #include "Character.h"
-#include "Damage.h"
-#include "ACS.h"
-#include "TalentGrid.h"
-#include "Talent.h"
 
 using std::string;
 using std::vector;
@@ -35,27 +26,9 @@ class Hand {
 
 int main () 
 {
-    srand(time(0));
+    Character *ply = new Character();
 
-    #define x nullptr
-    #define T new Talent("T", 1, blue, blue, blue, blue)
-    #define C new Talent("C", 2, white, white, white, white)
-    #define J new Talent("J", 1, red, blue, red, blue)
-
-    TalentGrid grid;
-    grid.slotGrid = {
-        {new Talent(" ", 0, red, none, none, black), new Talent(" ", 0, black, none, black, none)},
-        {new Talent(" ", 0,none, blue, none, red), new Talent(" ", 0, none, blue, red, none)},
-    };
-
-    grid.talentGrid = {
-        {x, T},
-        {C, x},
-    };
-
-    #undef x
-
-    std::cout << grid.toString();
+    std::cout << ply->grids[0]->toString();
 
 /*
 

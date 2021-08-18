@@ -14,6 +14,25 @@ Character::Character() {
     personalityType->intellect = Random();
     personalityType->wisdom = Random();
     personalityType->creativity = Random();
+
+    grids[0] = new TalentGrid();
+    grids[0]->slotGrid = {
+        {new Talent(" ", 0, red, none, none, black), new Talent(" ", 0, black, none, black, none)},
+        {new Talent(" ", 0,none, blue, none, red), new Talent(" ", 0, none, blue, red, none)},
+    };
+
+    #define x nullptr
+    #define T new Talent("T", 1, blue, blue, blue, blue)
+    #define C new Talent("C", 2, white, white, white, white)
+    #define J new Talent("J", 1, red, blue, red, blue)
+
+    grids[0]->talentGrid = {
+        {x, T},
+        {C, x},
+    };
+
+    grids[1] = new TalentGrid();
+    grids[2] = new TalentGrid();
 }
 
 float CalculateDamage(float color, float a, float b, float c, float d, float e) {

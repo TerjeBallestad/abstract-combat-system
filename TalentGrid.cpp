@@ -45,7 +45,7 @@ float TalentGrid::Calculate() {
 }
 
 string TalentGrid::toString() {
-    vector<string> strings;
+    std::vector<std::string> strings;
     
     int subGridSize = 3;
     size_t size = (gridSize * gridSize) * subGridSize*subGridSize;

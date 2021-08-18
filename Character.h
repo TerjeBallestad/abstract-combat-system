@@ -3,14 +3,10 @@
 #include "Spell.h"
 #include "Damage.h"
 #include "TalentGrid.h"
+#include "LBDRG.hpp"
 
 struct PersonalityType {
-    float white; 
-    float black; 
-    float blue; 
-    float red; 
-    float green;
-
+    LBDRG lbdrg;
     float creativity;
     float intellect;
     float wisdom;
@@ -23,9 +19,10 @@ class Character {
         float health = 100;
 
         float TakeSpellDamage(Spell *spell);
+        LBDRG GetTalentScore();
 
         Spell *spells[3];
-        TalentGrid *grids[3];
+        TalentGrid *grid;
 
         PersonalityType* personalityType;
 

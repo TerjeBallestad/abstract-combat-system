@@ -1,34 +1,77 @@
 #include <iostream>
+#include <vector>
+#include <string>
+#include "rapidcsv.h"
 #include "Character.h"
 
-using std::string;
-using std::vector;
+/*
+const std::string WHITESPACE = " \n\r\t\f\v";
+ 
+std::string ltrim(const std::string &s)
+{
+    size_t start = s.find_first_not_of(WHITESPACE);
+    return (start == std::string::npos) ? "" : s.substr(start);
+}
+ 
+std::string rtrim(const std::string &s)
+{
+    size_t end = s.find_last_not_of(WHITESPACE);
+    return (end == std::string::npos) ? "" : s.substr(0, end + 1);
+}
+ 
+std::string trim(const std::string &s) {
+    return rtrim(ltrim(s));
+}
 
-struct PuzzlePiece {
-    int ID;
-    BaseType north, south, east, west;
-};
+std::vector<std::string> split (std::string s, std::string delimiter) {
+    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+    std::string token;
+    std::vector<std::string> res;
 
-struct Card {
-    int damage;
-    float castTime;
-    float cooldown;
-    PuzzlePiece puzzlePiece;
-};
+    while ((pos_end = s.find (delimiter, pos_start)) != std::string::npos) {
+        token = s.substr (pos_start, pos_end - pos_start);
+        pos_start = pos_end + delim_len;
+        res.push_back (trim(token));
+    }
 
-class Deck {
-    Card cards [50];
-};
-
-class Hand {
-    Card cards [10];
-};
+    res.push_back (s.substr (pos_start));
+    return res;
+}
+*/
 
 int main () 
 {
+    /*rapidcsv::Document doc("./Data.csv", rapidcsv::LabelParams(0, 0), rapidcsv::SeparatorParams(';'));
+   
+    std::vector<int[3]> gridPositions;
+
+    for (auto row : doc.GetColumn<std::string>(0)) {
+        auto xyz = split(row, ",");
+
+        int vec[3] = {0,0,0};
+        vec[0] = stoi(xyz[0]);
+        vec[1] = stoi(xyz[1]);
+        vec[2] = stoi(xyz[2]);
+
+        gridPositions.push_back(vec);
+    }
+
+
+    int i = 0;
+    for (auto row : doc.GetColumn<std::string>("Player character slots")) {
+        auto values = split(row, ",");
+        auto gridPos = gridPositions[i];
+        std::cout << row << "\n";
+        i++;
+    }
+*/
+
     Character *ply = new Character();
 
-    std::cout << ply->grids[0]->toString();
+    std::cout << ply->grid->ToString();
+    std::cout << ply->GetTalentScore().ToString();
+
+
 
 /*
 
@@ -121,7 +164,7 @@ int main ()
 
     while (true) {
 
-        std::cout << "You have 3 spells.\n\tSpell 1: " << player->spells[0]->toString() << "\n\tSpell 2: " << player->spells[1]->toString() << "\n\tSpell 3: " << player->spells[2]->toString() << "\n";
+        std::cout << "You have 3 spells.\n\tSpell 1: " << player->spells[0]->ToString() << "\n\tSpell 2: " << player->spells[1]->ToString() << "\n\tSpell 3: " << player->spells[2]->ToString() << "\n";
 
         std::cin >> selected;
         

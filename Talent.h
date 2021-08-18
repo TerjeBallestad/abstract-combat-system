@@ -6,10 +6,11 @@
 class Talent {
 public:
     std::string name = std::string("no talent");
-    int energyPerTurn = 0;
+    float energyPerTurn = 0;
+    bool hidden = false;
     BaseType north, south, east, west;
-    Talent(std::string name_, int energyPerTurn_, BaseType n,BaseType s,BaseType e,BaseType w);
-    std::string toString() {
+    Talent(std::string name_, int energyPerTurn_, BaseType n,BaseType s,BaseType e,BaseType w, bool hidden);
+    std::string ToString() {
         return name;
     }
 };

@@ -5,43 +5,72 @@
 Character::Character() {
     personalityType = (PersonalityType *)malloc(sizeof(PersonalityType));
 
-    personalityType->white = Random();
-    personalityType->black = Random();
-    personalityType->blue = Random();
-    personalityType->red = Random();
-    personalityType->green = Random();
+    personalityType->lbdrg = LBDRG(Random(), Random(), Random(), Random(), Random());
 
     personalityType->intellect = Random();
     personalityType->wisdom = Random();
     personalityType->creativity = Random();
 
-    grids[0] = new TalentGrid();
-    grids[0]->slotGrid = {
-        {new Talent(" ", 0, red, none, none, black), new Talent(" ", 0, black, none, black, none)},
-        {new Talent(" ", 0,none, blue, none, red), new Talent(" ", 0, none, blue, red, none)},
+    #define x new Talent(" ", 0, none, none, none, none, true)
+    grid = new TalentGrid();
+    grid->slotGrid = {
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
     };
+    #undef x
 
     #define x nullptr
-    #define T new Talent("T", 1, blue, blue, blue, blue)
-    #define C new Talent("C", 2, white, white, white, white)
-    #define J new Talent("J", 1, red, blue, red, blue)
+    #define T new Talent("T", 1, blue, blue, blue, blue, false)
+    #define C new Talent("C", 2, white, white, white, white, false)
+    #define J new Talent("J", 1, red, blue, red, blue, false)
 
-    grids[0]->talentGrid = {
-        {x, T},
-        {C, x},
+    grid->talentGrid = {
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,C,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
+        {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
     };
-
-    grids[1] = new TalentGrid();
-    grids[2] = new TalentGrid();
 }
 
-float CalculateDamage(float color, float a, float b, float c, float d, float e) {
+LBDRG Character::GetTalentScore() {
+    return grid->Calculate();
+}
+
+float CalculateDamage(float color, LBDRG lbdrg) {
     return
-        (color * a) +
-        (color * b) + 
-        (color * c) + 
-        (color * d) + 
-        (color * e); 
+        (color * lbdrg.l) +
+        (color * lbdrg.b) + 
+        (color * lbdrg.d) + 
+        (color * lbdrg.r) + 
+        (color * lbdrg.g); 
 }
 
 float Character::TakeSpellDamage(Spell *spell) {
@@ -49,67 +78,31 @@ float Character::TakeSpellDamage(Spell *spell) {
 
     //float blackDamage   = (spell->black * (pt->black * 0.50)) + (spell->black * (pt->blue * 1.00)) + (spell->black * (pt->red * 1.00)) + (spell->black * (pt->green * 1.50)) + (spell->black * (pt->white * 1.50));
 
-    float whiteDamage = CalculateDamage(
-        spell->white, 
-        pt->white * 0.5,
-        pt->blue * 1.0,
-        pt->black * 1.5,
-        pt->red * 1.5,
-        pt->green * 1.0
+    LBDRG lbdrg;
+
+    lbdrg.l = CalculateDamage(
+        spell->lbdrg.l, pt->lbdrg * LBDRG(0.5, 1.0, 1.5, 1.5, 1.0)
     );
-    float blueDamage = CalculateDamage(
-        spell->blue, 
-        pt->white * 1.0,
-        pt->blue * 0.5,
-        pt->black * 1.0,
-        pt->red * 1.5,
-        pt->green * 1.5
+    lbdrg.b = CalculateDamage(
+        spell->lbdrg.b, pt->lbdrg * LBDRG(1.0, 0.5, 1.0, 1.5, 1.5)
     );
-    float blackDamage = CalculateDamage(
-        spell->black, 
-        pt->white * 1.50,
-        pt->blue * 1.00,
-        pt->black * 0.50,
-        pt->red * 1.00,
-        pt->green * 1.50
+    lbdrg.d = CalculateDamage(
+        spell->lbdrg.d, pt->lbdrg * LBDRG(1.50, 1.00, 0.50, 1.00, 1.50)
+    );
+    lbdrg.r = CalculateDamage(
+        spell->lbdrg.r, pt->lbdrg * LBDRG(1.5, 1.5, 1.0, 0.5, 1.0)
+    );
+    lbdrg.g = CalculateDamage(
+        spell->lbdrg.g, pt->lbdrg * LBDRG(1.0, 1.5, 1.5, 1.0, 0.5)
     );
 
-    float redDamage = CalculateDamage(
-        spell->red, 
-        pt->white * 1.5,
-        pt->blue * 1.5,
-        pt->black * 1.0,
-        pt->red * 0.5,
-        pt->green * 1.0
-    );
-    float greenDamage = CalculateDamage(
-        spell->green, 
-        pt->white * 1.0,
-        pt->blue * 1.5,
-        pt->black * 1.5,
-        pt->red * 1.0,
-        pt->green * 0.5
-    );
+    auto scores = GetTalentScore();
     
-    float damage = whiteDamage + blueDamage + blackDamage + redDamage + greenDamage;
+    lbdrg += scores;
 
-    
-    // float blueDamage    = (spell->blue  * (pt->black * 1.00)) + (spell->blue  * (pt->blue * 0.50)) + (spell->blue  * (pt->red * 1.50)) + (spell->blue  * (pt->green * 1.50)) + (spell->blue  * (pt->white * 1.00));
-    // float redDamage     = (spell->red   * (pt->black * 1.00)) + (spell->red   * (pt->blue * 1.50)) + (spell->red   * (pt->red * 0.50)) + (spell->red   * (pt->green * 1.00)) + (spell->red   * (pt->white * 1.50));
-    // float greenDamage   = (spell->green * (pt->black * 1.50)) + (spell->green * (pt->blue * 1.50)) + (spell->green * (pt->red * 1.00)) + (spell->green * (pt->green * 0.50)) + (spell->green * (pt->white * 1.00));
-    // float whiteDamage   = (spell->white * (pt->black * 1.50)) + (spell->white * (pt->blue * 1.00)) + (spell->white * (pt->red * 1.50)) + (spell->white * (pt->green * 1.00)) + (spell->white * (pt->white * 0.50));
+    float damage = lbdrg.Sum();
 
-
-/*
-    auto dmg = new SpellDamage();
-    dmg->black = (spell->white + spell->green) / 2.0;´
-    dmg->red = (spell->white + spell->blue) / 2.0;
-    dmg->green = (spell->blue + spell->black) / 2.0;
-    dmg->white = (spell->black + spell->red) / 2.0;
-    dmg->blue = (spell->red + spell->green) / 2.0;
-    */
-
-   health -= damage;
+    health -= damage;
 
     return damage;
 }

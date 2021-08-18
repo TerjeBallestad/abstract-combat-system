@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Talent.h"
 #include "TalentGrid.h"
 #include "Util.h"
@@ -14,37 +16,40 @@ TalentGrid::TalentGrid() {
     }
 }
 
-float TalentGrid::Calculate() {
-    int scoreWhite = 0;
-    int scoreBlack = 0;
-    int scoreRed = 0;
-    int scoreGreen = 0;
-    int scoreBlue = 0;
+#define CALC(dir) if (talent->dir == white) {\
+        scores.l += talent->energyPerTurn;\
+    } else if (talent->dir == black) {\
+        scores.d += talent->energyPerTurn;\
+    } else if (talent->dir == red) {\
+        scores.r += talent->energyPerTurn;\
+    } else if (talent->dir == blue) {\
+        scores.b += talent->energyPerTurn;\
+    } else if (talent->dir == green) {\
+        scores.g += talent->energyPerTurn;\
+    }\
+
+LBDRG TalentGrid::Calculate() {
+    LBDRG scores;
 
     for (int x = 0; x < gridSize; x++) {
         for (int y = 0; y < gridSize; y++) {
             auto talent = talentGrid[y][x];
             
             if (talent) {
-                if (talent->west == white) {
-                    scoreWhite += talent->energyPerTurn;
-                } else if (talent->west == black) {
-                    scoreBlack += talent->energyPerTurn;
-                } else if (talent->west == red) {
-                    scoreRed += talent->energyPerTurn;
-                } else if (talent->west == blue) {
-                    scoreBlue += talent->energyPerTurn;
-                } else if (talent->west == green) {
-                    scoreGreen += talent->energyPerTurn;
-                }
+                CALC(west)
+                CALC(north)
+                CALC(south)
+                CALC(east)         
             }
         }
     }
 
-    return 0;
+    return scores;
 }
 
-string TalentGrid::toString() {
+#undef CALC       
+
+string TalentGrid::ToString() {
     std::vector<std::string> strings;
     
     int subGridSize = 3;
@@ -64,7 +69,7 @@ string TalentGrid::toString() {
         if (talent) {
 
             if (subX == 1 && subY == 1) {
-                strings[i] = talent->toString();   
+                strings[i] = talent->ToString();   
             } else if (subX == 1 && subY == 0) {
                 strings[i] = Enum2Color(talent->north) + "˰" + Enum2Color(white);
             } else if (subX == 1 && subY == 2) {
@@ -84,28 +89,28 @@ string TalentGrid::toString() {
             }
         } else {
             if (subX == 1 && subY == 1) {
-                strings[i] = "·";
+                strings[i] = " ";
             } else if (subX == 1 && subY == 0) {
                 if (slot->north == none) {
-                    strings[i] = "·";
+                    strings[i] = " ";
                 } else {
                     strings[i] = Enum2Color(slot->north) + "˰" + Enum2Color(white);
                 }
             } else if (subX == 1 && subY == 2) {
                 if (slot->south == none) {
-                    strings[i] = "·";
+                    strings[i] = " ";
                 } else {
                     strings[i] = Enum2Color(slot->south) + "ˇ" + Enum2Color(white);
                 }
             } else if (subX == 0 && subY == 1) {
                 if (slot->west == none) {
-                    strings[i] = "·";
+                    strings[i] = " ";
                 } else {
                     strings[i] = Enum2Color(slot->west) + "˂" + Enum2Color(white);
                 }
             } else if (subX == 2 && subY == 1) {
                 if (slot->east == none) {
-                    strings[i] = "·";
+                    strings[i] = " ";
                 } else {
                     strings[i] = Enum2Color(slot->east) + "˃" + Enum2Color(white);
                 }

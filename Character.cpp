@@ -57,8 +57,8 @@ Character::Character() {
     };
 }
 
-LBDRG Character::GetTalentScore() {
-    return grid->Calculate();
+LBDRG Character::GetEnergy() {
+    return grid->GetEnergy();
 }
 
 float CalculateDamage(float color, LBDRG lbdrg) {
@@ -93,7 +93,7 @@ float Character::TakeSpellDamage(Spell *spell) {
         spell->lbdrg.g, pt->lbdrg * LBDRG(1.0, 1.5, 1.5, 1.0, 0.5)
     );
 
-    auto scores = GetTalentScore();
+    auto scores = GetEnergy();
     
     lbdrg += scores;
 

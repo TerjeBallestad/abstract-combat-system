@@ -12,5 +12,5 @@ public:
     std::vector<std::vector<Talent*>> slotGrid;
     std::string ToString();
     int gridSize = 16;    
-    LBDRG Calculate();
+    LBDRG GetEnergy();
 };

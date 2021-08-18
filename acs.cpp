@@ -33,7 +33,7 @@ std::vector<std::string> split (std::string s, std::string delimiter) {
         res.push_back (trim(token));
     }
 
-    res.push_back (s.substr (pos_start));
+    res.push_back (trim(s.substr (pos_start)));
     return res;
 }
 
@@ -128,9 +128,9 @@ int main ()
                 bool hidden = data[2] == "true";
 
                 auto slot = new Talent(*slots[slotId]);
-                auto talent = new Talent(*talents[slotId]);
+                auto talent = new Talent(*talents[talentId]);
 
-                slot->hidden = hidden;
+                slot->hidden = !hidden;
 
                 ply->grid->slotGrid[x][y] = slot;
                 ply->grid->talentGrid[x][y] = talentId == 0 ? nullptr : talent;
@@ -141,7 +141,7 @@ int main ()
     //Character *ply = new Character();
 
     std::cout << ply->grid->ToString();
-    //std::cout << ply->GetTalentScore().ToString();
+    std::cout << ply->GetEnergy().ToString();
 
 
 

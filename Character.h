@@ -19,7 +19,7 @@ class Character {
         float health = 100;
 
         float TakeSpellDamage(Spell *spell);
-        LBDRG GetTalentScore();
+        LBDRG GetEnergy();
 
         Spell *spells[3];
         TalentGrid *grid;

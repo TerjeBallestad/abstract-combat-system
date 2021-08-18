@@ -1,7 +1,7 @@
 #include "Talent.h"
 #include "TalentGrid.h"
 #include "Util.h"
-#include "ACS.h"
+#include "acs.h"
 
 TalentGrid::TalentGrid() {
     talentGrid.resize(gridSize);
@@ -26,7 +26,7 @@ TalentGrid::TalentGrid() {
         scores.g += talent->energyPerTurn;\
     }\
 
-LBDRG TalentGrid::Calculate() {
+LBDRG TalentGrid::GetEnergy() {
     LBDRG scores;
 
     for (int x = 0; x < gridSize; x++) {
@@ -46,6 +46,10 @@ LBDRG TalentGrid::Calculate() {
 }
 
 #undef CALC       
+
+std::string Grey(std::string str) {
+    return RGB(str, 75, 75, 75);
+}
 
 string TalentGrid::ToString() {
     std::vector<std::string> strings;
@@ -68,60 +72,60 @@ string TalentGrid::ToString() {
             if (subX == 1 && subY == 1) {
                 strings[i] = talent->ToString();   
             } else if (subX == 1 && subY == 0) {
-                strings[i] = Enum2Color(talent->north) + "˰" + Enum2Color(white);
+                strings[i] = Enum2Color(talent->north, "˰˰");
             } else if (subX == 1 && subY == 2) {
-                strings[i] = Enum2Color(talent->south) + "ˇ" + Enum2Color(white);
+                strings[i] = Enum2Color(talent->south, "ˇˇ");
             } else if (subX == 0 && subY == 1) {
-                strings[i] = Enum2Color(talent->west) + "˂" + Enum2Color(white);
+                strings[i] = Enum2Color(talent->west, "˂");
             } else if (subX == 2 && subY == 1) {
-                strings[i] = Enum2Color(talent->east) + "˃" + Enum2Color(white);
+                strings[i] = Enum2Color(talent->east, "˃");
             } else if (subX == 0 && subY == 0) {
-                strings[i] = "⌜";
+                strings[i] = Grey("⌜");
             } else if (subX == 2 && subY == 0) {
-                strings[i] = "⌝";
+                strings[i] = Grey("⌝");
             } else if (subX == 0 && subY == 2) {
-                strings[i] = "⌞";
+                strings[i] = Grey("⌞");
             } else if (subX == 2 && subY == 2) {
-                strings[i] = "⌟";
+                strings[i] = Grey("⌟");
             }
         } else {
             if (slot->hidden) {
                 strings[i] = " ";
             } else {
                 if (subX == 1 && subY == 1) {
-                    strings[i] = " ";
+                    strings[i] = slot->ToString();
                 } else if (subX == 1 && subY == 0) {
                     if (slot->north == none) {
-                        strings[i] = " ";
+                        strings[i] = "  ";
                     } else {
-                        strings[i] = Enum2Color(slot->north) + "˰" + Enum2Color(white);
+                        strings[i] = Enum2Color(slot->north, "˰˰");
                     }
                 } else if (subX == 1 && subY == 2) {
                     if (slot->south == none) {
-                        strings[i] = " ";
+                        strings[i] = "  ";
                     } else {
-                        strings[i] = Enum2Color(slot->south) + "ˇ" + Enum2Color(white);
+                        strings[i] = Enum2Color(slot->south, "ˇˇ");
                     }
                 } else if (subX == 0 && subY == 1) {
                     if (slot->west == none) {
                         strings[i] = " ";
                     } else {
-                        strings[i] = Enum2Color(slot->west) + "˂" + Enum2Color(white);
+                        strings[i] = Enum2Color(slot->west, "˂");
                     }
                 } else if (subX == 2 && subY == 1) {
                     if (slot->east == none) {
                         strings[i] = " ";
                     } else {
-                        strings[i] = Enum2Color(slot->east) + "˃" + Enum2Color(white);
+                        strings[i] = Enum2Color(slot->east, "˃");
                     }
                 } else if (subX == 0 && subY == 0) {
-                    strings[i] = "⌜";
+                    strings[i] = Grey("⌜");
                 } else if (subX == 2 && subY == 0) {
-                    strings[i] = "⌝";
+                    strings[i] = Grey("⌝");
                 } else if (subX == 0 && subY == 2) {
-                    strings[i] = "⌞";
+                    strings[i] = Grey("⌞");
                 } else if (subX == 2 && subY == 2) {
-                    strings[i] = "⌟";
+                    strings[i] = Grey("⌟");
                 }
             }
         }

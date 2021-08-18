@@ -18,36 +18,11 @@ int main ()
     std::cout << PC->GetEnergy().ToString();
 
     Character *A = new Character();
-    
-    PersonalityType personality = * new PersonalityType();
-    personality.basePersonality = * new BTVector( Random(),Random(),Random(),Random(),Random());
-    personality.creativity = Random();
-    personality.intellect = Random();
-    personality.wisdom = Random();
-    A->personalityType = &personality; 
-
-    LoadSpellsToCharacter(spells, A);
     Character *B = new Character();
-    
-    personality = * new PersonalityType();
-    personality.basePersonality = * new BTVector( Random(),Random(),Random(),Random(),Random());
-    personality.creativity = Random();
-    personality.intellect = Random();
-    personality.wisdom = Random();
-    B->personalityType = &personality; 
-
-    LoadSpellsToCharacter(spells, B);
-
-
     Character *C = new Character();
 
-    personality = * new PersonalityType();
-    personality.basePersonality = * new BTVector( Random(),Random(),Random(),Random(),Random());
-    personality.creativity = Random();
-    personality.intellect = Random();
-    personality.wisdom = Random();
-    C->personalityType = &personality; 
-
+    LoadSpellsToCharacter(spells, A);
+    LoadSpellsToCharacter(spells, B);
     LoadSpellsToCharacter(spells, C);
 
     std::cout << "You find yourself in an open field.\n";

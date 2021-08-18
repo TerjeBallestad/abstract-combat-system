@@ -6,93 +6,49 @@
 
 int main () 
 {
-    Character *ply = new Character();
+    Character *PC = new Character();
 
     std::vector<Talent *> talents = LoadTalents();
     std::vector<Talent *> slots = LoadSlots(); 
     std::vector<Spell *> spells = LoadSpells();
-    LoadToGrid(talents, slots, ply->grid);
-    LoadSpellsToCharacter(spells, ply);  
+    LoadToGrid(talents, slots, PC->grid);
+    LoadSpellsToCharacter(spells, PC);  
    
-    std::cout << ply->grid->ToString();
-    std::cout << ply->GetEnergy().ToString();
-    
-    for(auto spell : ply->spells){
-        std::cout << spell->ToString();
-    }
-
-    
-
-/*
-
-    Character *player = new Character();
-    
-    player->personalityType->black = 0.2;
-    player->personalityType->white = 0.2;
-    player->personalityType->blue = 0.2;
-    player->personalityType->green = 0.2;
-    player->personalityType->red = 0.2;
-
-    player->personalityType->intellect = 0.5;
-    player->personalityType->creativity = 0.5;
-    player->personalityType->wisdom = 0.5;
-
-    player->spells[0] = new GenericBlackSpell();
-    player->spells[1] = new GenericGreenSpell();
-    player->spells[2] = new GenericBlueSpell();
-
-
+    std::cout << PC->grid->ToString();
+    std::cout << PC->GetEnergy().ToString();
 
     Character *A = new Character();
     
-    A->personalityType->black = 0;
-    A->personalityType->white = 1;
-    A->personalityType->blue = 0;
-    A->personalityType->green = 0;
-    A->personalityType->red = 0;
+    PersonalityType personality = * new PersonalityType();
+    personality.basePersonality = * new BTVector( Random(),Random(),Random(),Random(),Random());
+    personality.creativity = Random();
+    personality.intellect = Random();
+    personality.wisdom = Random();
+    A->personalityType = &personality; 
 
-    A->personalityType->intellect = 0.5;
-    A->personalityType->creativity = 0.5;
-    A->personalityType->wisdom = 0.5;
-
-    A->spells[0] = new GenericBlackSpell();
-    A->spells[1] = new GenericWhiteSpell();
-    A->spells[2] = new GenericGreenSpell();
-
-
+    LoadSpellsToCharacter(spells, A);
     Character *B = new Character();
     
-    B->personalityType->black = 0.5;
-    B->personalityType->white = 0;
-    B->personalityType->blue = 0.5;
-    B->personalityType->green = 0;
-    B->personalityType->red = 0;
+    personality = * new PersonalityType();
+    personality.basePersonality = * new BTVector( Random(),Random(),Random(),Random(),Random());
+    personality.creativity = Random();
+    personality.intellect = Random();
+    personality.wisdom = Random();
+    B->personalityType = &personality; 
 
-    B->personalityType->intellect = 0.5;
-    B->personalityType->creativity = 0.5;
-    B->personalityType->wisdom = 0.5;
-
-
-    B->spells[0] = new GenericBlueSpell();
-    B->spells[1] = new GenericBlackSpell();
-    B->spells[2] = new GenericRedSpell();
+    LoadSpellsToCharacter(spells, B);
 
 
     Character *C = new Character();
-    
-    C->personalityType->black = 0.3333333333;
-    C->personalityType->white = 0;
-    C->personalityType->blue = 0;
-    C->personalityType->green = 0.3333333333;
-    C->personalityType->red = 0.3333333333;
 
-    C->personalityType->intellect = 0.5;
-    C->personalityType->creativity = 0.5;
-    C->personalityType->wisdom = 0.5;
+    personality = * new PersonalityType();
+    personality.basePersonality = * new BTVector( Random(),Random(),Random(),Random(),Random());
+    personality.creativity = Random();
+    personality.intellect = Random();
+    personality.wisdom = Random();
+    C->personalityType = &personality; 
 
-    C->spells[0] = new GenericBlackSpell();
-    C->spells[1] = new GenericGreenSpell();
-    C->spells[2] = new GenericBlueSpell();
+    LoadSpellsToCharacter(spells, C);
 
     std::cout << "You find yourself in an open field.\n";
     std::cout << "There are 3 enemies in front of you.\n";
@@ -114,16 +70,16 @@ int main ()
 
     while (true) {
 
-        std::cout << "You have 3 spells.\n\tSpell 1: " << player->spells[0]->ToString() << "\n\tSpell 2: " << player->spells[1]->ToString() << "\n\tSpell 3: " << player->spells[2]->ToString() << "\n";
+        std::cout << "You have 3 spells.\n\tSpell 1: " << PC->spells[0]->ToString() << "\n\tSpell 2: " << PC->spells[1]->ToString() << "\n\tSpell 3: " << PC->spells[2]->ToString() << "\n";
 
         std::cin >> selected;
         
         if (selected == 1) {
-            spell = player->spells[0];
+            spell = PC->spells[0];
         } else if (selected == 2) {
-            spell = player->spells[1];
+            spell = PC->spells[1];
         } else if (selected == 3) {
-            spell = player->spells[2];
+            spell = PC->spells[2];
         }
 
         float dmg;
@@ -132,23 +88,23 @@ int main ()
         std::cout << "You did " << dmg << " damage\n";
         std::cout << "Enemy now has " << enemy->health << " health\n";
 
-        dmg = player->TakeSpellDamage(enemy->spells[rand()%3]);
+        dmg = PC->TakeSpellDamage(enemy->spells[rand()%3]);
         std::cout << "The enemy did " << dmg << " damage\n";
-        std::cout << "You now have " << player->health << " health\n";
+        std::cout << "You now have " << PC->health << " health\n";
 
         if (!enemy->IsAlive()) {
             std::cout << "You won!";
             break;
         }
 
-        if (!player->IsAlive()) {
+        if (!PC->IsAlive()) {
             std::cout << "You died!";
             break;
         }
 
     }
 
-*/
+
     return 0;
 }
 

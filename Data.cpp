@@ -129,15 +129,20 @@ std::vector<Spell *> LoadSpells(){
 
    for (auto row : Id) {
         auto i = row;
+        std::cout << L[i];
+        std::cout << B[i];
+        std::cout << D[i];
+        std::cout << R[i];
+        std::cout << G[i];
         spells.push_back(
             new Spell(
                 Name[i],
                 * new BTVector(
-                    CharToBaseType(L[i]), 
-                    CharToBaseType(B[i]), 
-                    CharToBaseType(D[i]), 
-                    CharToBaseType(R[i]),
-                    CharToBaseType(G[i])
+                    std::stoi(L[i]), 
+                    std::stoi(B[i]), 
+                    std::stoi(D[i]), 
+                    std::stoi(R[i]),
+                    std::stoi(G[i])
                 )
             )
         );

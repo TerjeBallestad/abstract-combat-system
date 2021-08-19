@@ -17,8 +17,8 @@ Character::Character(std::string name_) {
     personalityType->creativity = Random();
 
     #define x new Talent(" ", none, none, none, none)
-    grid = new TalentGrid();
-    grid->slotGrid = {
+    talentGrid = new TalentGrid();
+    talentGrid->slotGrid = {
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
@@ -41,7 +41,7 @@ Character::Character(std::string name_) {
 
     #define x nullptr
 
-    grid->talentGrid = {
+    talentGrid->talentGrid = {
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
         {x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x},
@@ -63,7 +63,7 @@ Character::Character(std::string name_) {
 }
 
 BTVector Character::GetEnergy() {
-    return grid->GetEnergy();
+    return talentGrid->GetEnergy();
 }
 
 float CalculateDamage(float color, BTVector lbdrg) {
@@ -79,7 +79,7 @@ void Character::TakeDamage(Damage *dmg) {
     auto spell = dmg->spell;
     auto pt = personalityType;
 
-    //float blackDamage   = (spell->black * (pt->black * 0.50)) + (spell->black * (pt->blue * 1.00)) + (spell->black * (pt->red * 1.00)) + (spell->black * (pt->green * 1.50)) + (spell->black * (pt->white * 1.50));
+    //float blackDamage   = (spell->dark * (pt->dark * 0.50)) + (spell->dark * (pt->blue * 1.00)) + (spell->dark * (pt->red * 1.00)) + (spell->dark * (pt->green * 1.50)) + (spell->dark * (pt->light * 1.50));
 
     BTVector damage;
 
@@ -111,6 +111,8 @@ Damage *Character::CastSpell(Spell *spell) {
 
     auto newEnergy = energy - spell->spellType;
 
+    std::cout << spell->spellType.ToString();
+
     if (newEnergy.IsAnyBelowZero()) {
         std::cout << name << " is out of energy\n";    
         return nullptr;
@@ -124,7 +126,7 @@ Damage *Character::CastSpell(Spell *spell) {
 }
 
 void Character::Update() {
-    energy += grid->GetEnergy();
+    energy += GetEnergy();
 
     energy.l = std::clamp(energy.l, (float)0, (float)100);
     energy.b = std::clamp(energy.b, (float)0, (float)100);

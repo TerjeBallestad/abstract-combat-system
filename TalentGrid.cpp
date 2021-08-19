@@ -14,9 +14,9 @@ TalentGrid::TalentGrid() {
     }
 }
 
-#define CALC(dir) if (talent->dir == white) {\
+#define CALC(dir) if (talent->dir == light) {\
         scores.l += talent->energyPerTurn;\
-    } else if (talent->dir == black) {\
+    } else if (talent->dir == dark) {\
         scores.d += talent->energyPerTurn;\
     } else if (talent->dir == red) {\
         scores.r += talent->energyPerTurn;\

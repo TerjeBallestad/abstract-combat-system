@@ -15,10 +15,10 @@ int main ()
     std::vector<Talent *> talents = LoadTalents();
     std::vector<Talent *> slots = LoadSlots(); 
     std::vector<Spell *> spells = LoadSpells();
-    LoadToGrid(talents, slots, PC->grid);
+    LoadToGrid(talents, slots, PC->talentGrid);
     LoadSpellsToCharacter(spells, PC);  
    
-    std::cout << PC->grid->ToString();
+    std::cout << PC->talentGrid->ToString();
     std::cout << PC->GetEnergy().ToString();
 
     std::vector<Character *> enemies;
@@ -27,8 +27,10 @@ int main ()
     enemies.push_back(new Character("B"));
     enemies.push_back(new Character("C"));
 
+
     for (auto enemy : enemies) {
         LoadSpellsToCharacter(spells, enemy);
+        LoadToGrid(talents, slots, enemy->talentGrid);
 
         characters.push_back(enemy);
     }

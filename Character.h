@@ -17,7 +17,7 @@ class Character {
         Character(string name);
         string name;
         float health = 100;
-        BTVector energy;
+        BTVector energy = * new BTVector(10,10,10,10,10);
         void Update();
 
         Damage *CastSpell(Spell *spell);
@@ -25,7 +25,7 @@ class Character {
         BTVector GetEnergy();
 
         Spell *spells[3];
-        TalentGrid *grid;
+        TalentGrid *talentGrid;
 
         PersonalityType* personalityType;
 

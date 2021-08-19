@@ -1,5 +1,7 @@
 #pragma once
 
+#include "acs.h"
+
 class BTVector {
 public:
     float l = 0;
@@ -18,33 +20,33 @@ public:
         g = g_;
     }
 
-    inline BTVector operator*(BTVector ldbrg) {
+    inline BTVector operator*(BTVector vector) {
         return BTVector(
-            l*ldbrg.l,
-            d*ldbrg.d,
-            b*ldbrg.b,
-            r*ldbrg.r,
-            g*ldbrg.g
+            l*vector.l,
+            d*vector.d,
+            b*vector.b,
+            r*vector.r,
+            g*vector.g
         );
     }
 
-    inline BTVector operator-(BTVector ldbrg) {
+    inline BTVector operator-(BTVector vector) {
         return BTVector(
-            l-ldbrg.l,
-            d-ldbrg.d,
-            b-ldbrg.b,
-            r-ldbrg.r,
-            g-ldbrg.g
+            l-vector.l,
+            d-vector.d,
+            b-vector.b,
+            r-vector.r,
+            g-vector.g
         );
     }
 
-    inline BTVector operator+=(BTVector ldbrg) {
+    inline BTVector operator+=(BTVector vector) {
         return BTVector(
-            l+ldbrg.l,
-            d+ldbrg.d,
-            b+ldbrg.b,
-            r+ldbrg.r,
-            g+ldbrg.g
+            l+=vector.l,
+            d+=vector.d,
+            b+=vector.b,
+            r+=vector.r,
+            g+=vector.g
         );
     }
 
@@ -58,11 +60,11 @@ public:
     }
 
     std::string ToString() {
-        return std::string("scores:\n") +
-            "l: " + std::to_string(l) + "\n" +
-            "b: " + std::to_string(b) + "\n"
-            "d: " + std::to_string(d) + "\n"
-            "r: " + std::to_string(r) + "\n"
-            "g: " + std::to_string(g) + "\n";
+        return std::string("\n") +
+        BaseTypeToTerminalColor(BaseType::light, std::to_string(l)) + "\n" +
+        BaseTypeToTerminalColor(BaseType::blue, std::to_string(b)) + "\n" +
+        BaseTypeToTerminalColor(BaseType::dark, std::to_string(d)) + "\n" +
+        BaseTypeToTerminalColor(BaseType::red, std::to_string(r)) + "\n" +
+        BaseTypeToTerminalColor(BaseType::green, std::to_string(g)) + "\n";
     }
 };

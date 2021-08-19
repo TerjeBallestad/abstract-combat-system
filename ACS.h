@@ -3,8 +3,8 @@
 #include "Util.h"
 
 enum BaseType { 
-    white, 
-    black, 
+    light, 
+    dark, 
     blue, 
     red, 
     green, 
@@ -18,9 +18,9 @@ inline BaseType CharToBaseType(std::string c) {
     } else if (c == "G") {
         return green;
     } else if (c == "L") {
-        return white;
+        return light;
     } else if (c == "D") {
-        return black;
+        return dark;
     } else if (c == "B") {
         return blue;
     } else if (c == "A") {
@@ -31,16 +31,16 @@ inline BaseType CharToBaseType(std::string c) {
 }
 
 inline string BaseTypeToTerminalColor(BaseType color, std::string txt) {
-    if (color == white) {
-        return RGB(txt, 255, 255, 255);
-    } else if (color == black) {
-        return RGB(txt, 0, 0, 0);
+    if (color == light) {
+        return RGB(txt, 210, 210, 100);
+    } else if (color == dark) {
+        return RGB(txt, 100, 50, 100);
     } else if (color == blue) {
-        return RGB(txt, 0, 255, 0);
+        return RGB(txt, 50, 50, 210);
     } else if (color == red) {
-        return RGB(txt, 255, 0, 0);
+        return RGB(txt, 210, 50, 50);
     } else if (color == green) {
-        return RGB(txt, 0, 255, 0);
+        return RGB(txt, 50, 210, 50);
     } else if (color == all) {
         return RGB(txt, 255, 255, 255);
     }else if (color == none) {

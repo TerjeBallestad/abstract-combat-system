@@ -28,7 +28,17 @@ public:
         );
     }
 
-      inline BTVector operator+=(BTVector ldbrg) {
+    inline BTVector operator-(BTVector ldbrg) {
+        return BTVector(
+            l-ldbrg.l,
+            d-ldbrg.d,
+            b-ldbrg.b,
+            r-ldbrg.r,
+            g-ldbrg.g
+        );
+    }
+
+    inline BTVector operator+=(BTVector ldbrg) {
         return BTVector(
             l+ldbrg.l,
             d+ldbrg.d,
@@ -36,6 +46,11 @@ public:
             r+ldbrg.r,
             g+ldbrg.g
         );
+    }
+
+
+    inline bool IsAnyBelowZero() {
+        return l<= 0.0 || d<= 0.0 || b <= 0.0 || r<=0.0 || g <= 0.0;
     }
 
     inline float Sum() {

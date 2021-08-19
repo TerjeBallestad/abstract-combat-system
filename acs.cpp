@@ -6,7 +6,11 @@
 
 int main () 
 {
-    Character *PC = new Character();
+    std::vector<Character *> characters;
+
+    Character *PC = new Character("PlayerCharacter");
+
+    characters.push_back(PC);
 
     std::vector<Talent *> talents = LoadTalents();
     std::vector<Talent *> slots = LoadSlots(); 
@@ -17,55 +21,72 @@ int main ()
     std::cout << PC->grid->ToString();
     std::cout << PC->GetEnergy().ToString();
 
-    Character *A = new Character();
-    Character *B = new Character();
-    Character *C = new Character();
+    std::vector<Character *> enemies;
 
-    LoadSpellsToCharacter(spells, A);
-    LoadSpellsToCharacter(spells, B);
-    LoadSpellsToCharacter(spells, C);
+    enemies.push_back(new Character("A"));
+    enemies.push_back(new Character("B"));
+    enemies.push_back(new Character("C"));
 
+    for (auto enemy : enemies) {
+        LoadSpellsToCharacter(spells, enemy);
+
+        characters.push_back(enemy);
+    }
+    
     std::cout << "You find yourself in an open field.\n";
-    std::cout << "There are 3 enemies in front of you.\n";
-    std::cout << "Who do you attack?\n";
+    std::cout << "There are "<<enemies.size()<<" enemies in front of you.\n";
+    for (int i = 0; i < enemies.size(); i++) {
+        std::cout << enemies[i]->name;
+        if (i == enemies.size() - 2) {
+            std::cout << " and ";
+        } else if (i != enemies.size() - 1) {
+            std::cout << ", ";
+        }
+    }
 
-    Character *enemy;
+    std::cout << ". Who do you attack?\n";
+
+    Character *enemy = nullptr;
     Spell *spell;
 
-    int selected = 0;
-    std::cin >> selected;
+    std::string selected;    
 
-    if (selected == 1) {
-        enemy = A;
-    } else if (selected == 2) {
-        enemy = B;
-    } else if (selected == 3) {
-        enemy = C;
+    while (!enemy) {
+        std::cin >> selected;
+        for (auto chr : enemies) {
+            if (chr->name == selected) {
+                enemy = chr;
+                break;
+            }
+        }
+        if (!enemy) {
+            std::cout << "Could not find enemy "<<selected<<" try again.\n";
+        }
     }
+
 
     while (true) {
 
         std::cout << "You have 3 spells.\n\tSpell 1: " << PC->spells[0]->ToString() << "\n\tSpell 2: " << PC->spells[1]->ToString() << "\n\tSpell 3: " << PC->spells[2]->ToString() << "\n";
 
-        std::cin >> selected;
-        
-        if (selected == 1) {
-            spell = PC->spells[0];
-        } else if (selected == 2) {
-            spell = PC->spells[1];
-        } else if (selected == 3) {
-            spell = PC->spells[2];
+        int selectedSpell;
+        std::cin >> selectedSpell;
+
+        {
+
+            auto dmg = PC->CastSpell(PC->spells[selectedSpell%3]);
+            if (dmg) {
+                enemy->TakeDamage(dmg);
+            }
         }
 
-        float dmg;
+        {
 
-        dmg = enemy->TakeSpellDamage(spell);
-        std::cout << "You did " << dmg << " damage\n";
-        std::cout << "Enemy now has " << enemy->health << " health\n";
-
-        dmg = PC->TakeSpellDamage(enemy->spells[rand()%3]);
-        std::cout << "The enemy did " << dmg << " damage\n";
-        std::cout << "You now have " << PC->health << " health\n";
+            auto dmg = enemy->CastSpell(enemy->spells[rand()%3]);
+            if (dmg) {
+                PC->TakeDamage(dmg);
+            }
+        }
 
         if (!enemy->IsAlive()) {
             std::cout << "You won!";
@@ -77,6 +98,10 @@ int main ()
             break;
         }
 
+
+        for (auto chr : characters) {
+            chr->Update();
+        }
     }
 
 

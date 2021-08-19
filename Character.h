@@ -14,11 +14,14 @@ struct PersonalityType {
 
 class Character {
     public:
-        Character();
-
+        Character(string name);
+        string name;
         float health = 100;
+        BTVector energy;
+        void Update();
 
-        float TakeSpellDamage(Spell *spell);
+        Damage *CastSpell(Spell *spell);
+        void TakeDamage(Damage *spell);
         BTVector GetEnergy();
 
         Spell *spells[3];

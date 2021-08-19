@@ -147,11 +147,17 @@ std::vector<Spell *> LoadSpells(){
 
 void LoadSpellsToCharacter(std:: vector<Spell*> spells, Character* character){
     rapidcsv::Document doc("./Spells-Characters.csv", rapidcsv::LabelParams(0, -1), rapidcsv::SeparatorParams(';'));
-    auto spellIDs = doc.GetColumn<int>("PlayerCharacter");
+    auto spellIDs = doc.GetColumn<std::string>(character->name);
     int length = *(&character->spells + 1) -character->spells;
      for (int i = 0; i < length; i++)
      {
-        character->spells[i] = new Spell(*spells[spellIDs[i]]);
+         try {
+            int id = stoi(spellIDs[i]);
+            character->spells[i] = new Spell(*spells[id]);
+         } catch (const std::invalid_argument & e) {
+             
+         }
+
      }
      
 };

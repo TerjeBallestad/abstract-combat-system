@@ -1,10 +1,11 @@
 #pragma once
 
-class SpellDamage {
-public:
-    float white; 
-    float black; 
-    float blue; 
-    float red; 
-    float green;
+class Character;
+#include "Spell.h"
+
+class Damage {
+public: 
+    Damage(Character *instigator, Spell *spell);
+    Character *instigator;
+    Spell *spell;
 };

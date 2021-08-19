@@ -1,8 +1,13 @@
+#include <iostream>
 #include <memory>
 #include "Character.h"
 #include "Util.h"
+#include <algorithm>
 
-Character::Character() {
+Character::Character(std::string name_) {
+
+    name = name_;
+
     personalityType = new PersonalityType();
 
     personalityType->basePersonality = BTVector(Random(), Random(), Random(), Random(), Random());
@@ -70,36 +75,62 @@ float CalculateDamage(float color, BTVector lbdrg) {
         (color * lbdrg.g); 
 }
 
-float Character::TakeSpellDamage(Spell *spell) {
+void Character::TakeDamage(Damage *dmg) {
+    auto spell = dmg->spell;
     auto pt = personalityType;
 
     //float blackDamage   = (spell->black * (pt->black * 0.50)) + (spell->black * (pt->blue * 1.00)) + (spell->black * (pt->red * 1.00)) + (spell->black * (pt->green * 1.50)) + (spell->black * (pt->white * 1.50));
 
-    BTVector lbdrg;
+    BTVector damage;
 
-    lbdrg.l = CalculateDamage(
+    damage.l = CalculateDamage(
         spell->spellType.l, pt->basePersonality * BTVector(0.5, 1.0, 1.5, 1.5, 1.0)
     );
-    lbdrg.b = CalculateDamage(
+    damage.b = CalculateDamage(
         spell->spellType.b, pt->basePersonality * BTVector(1.0, 0.5, 1.0, 1.5, 1.5)
     );
-    lbdrg.d = CalculateDamage(
+    damage.d = CalculateDamage(
         spell->spellType.d, pt->basePersonality * BTVector(1.5, 1.0, 0.5, 1.0, 1.5)
     );
-    lbdrg.r = CalculateDamage(
+    damage.r = CalculateDamage(
         spell->spellType.r, pt->basePersonality * BTVector(1.5, 1.5, 1.0, 0.5, 1.0)
     );
-    lbdrg.g = CalculateDamage(
+    damage.g = CalculateDamage(
         spell->spellType.g, pt->basePersonality * BTVector(1.0, 1.5, 1.5, 1.0, 0.5)
     );
 
-    auto scores = GetEnergy();
-    
-    lbdrg += scores;
+    float totalDamage = damage.Sum();
 
-    float damage = lbdrg.Sum();
+    health -= totalDamage;
 
-    health -= damage;
+    std::cout << dmg->instigator->name << " hit " << name << " with " << dmg->spell->name << " for " << totalDamage << "\n"; 
+}
 
-    return damage;
+Damage *Character::CastSpell(Spell *spell) {
+    auto dmg = new Damage(this, spell);
+
+    auto newEnergy = energy - spell->spellType;
+
+    if (newEnergy.IsAnyBelowZero()) {
+        std::cout << name << " is out of energy\n";    
+        return nullptr;
+    }
+
+    energy = newEnergy;
+
+    std::cout << name << " cast " << dmg->spell->name << " for energy " << spell->spellType.ToString() << "\n"; 
+
+    return dmg;
+}
+
+void Character::Update() {
+    energy += grid->GetEnergy();
+
+    energy.l = std::clamp(energy.l, (float)0, (float)100);
+    energy.b = std::clamp(energy.b, (float)0, (float)100);
+    energy.d = std::clamp(energy.d, (float)0, (float)100);
+    energy.r = std::clamp(energy.r, (float)0, (float)100);
+    energy.g = std::clamp(energy.g, (float)0, (float)100);
+
+    std::cout << name << " now has " << energy.ToString() << " energy\n"; 
 }

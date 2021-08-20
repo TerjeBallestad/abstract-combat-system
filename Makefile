@@ -1,4 +1,4 @@
 all: main
 
 main:
-	g++ -g -std=c++20 *.cpp -o game
+	g++ -g -std=c++2a *.cpp -o game
